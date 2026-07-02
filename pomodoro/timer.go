@@ -2,9 +2,12 @@ package pomodoro
 
 import (
 	"fmt"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/pterm/pterm"
+	"golang.org/x/term"
 )
 
 // Timer type for Pomodoro
@@ -54,11 +57,32 @@ func (s *Session) Run() {
 			pterm.NewLettersFromString(timeString),
 		).Srender()
 
-		// Center the text in the terminal horizontally and vertically
+		// Get terminal size to center vertically
+		_, height, err := term.GetSize(int(os.Stdout.Fd()))
+		if err != nil {
+			height = 24
+		}
+
+		// Split big text into lines to count height
+		lines := strings.Split(bigTextStr, "\n")
+		textHeight := len(lines) + 2 // +2 for the "Work" type header
+
+		// Calculate vertical padding
+		paddingTop := (height - textHeight) / 2
+		if paddingTop < 0 {
+			paddingTop = 0
+		}
+
+		verticalPadding := strings.Repeat("\n", paddingTop)
+
+		// Center the text horizontally
 		centeredText := pterm.DefaultCenter.Sprint(fmt.Sprintf("%s\n\n%s", s.Type, bigTextStr))
 
+		// Apply vertical padding and final output
+		finalOutput := verticalPadding + centeredText
+
 		// Update the area
-		area.Update(centeredText)
+		area.Update(finalOutput)
 
 		// Sleep for 1 second if not done
 		if i > 0 {
