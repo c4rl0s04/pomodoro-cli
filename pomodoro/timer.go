@@ -108,9 +108,10 @@ func (s *Session) Run() {
 			pterm.NewLettersFromString(timeString),
 		).Srender()
 
-		// Combine and add shadow
+		// Combine, strip ANSI codes, and add shadow
 		combined := phaseStr + "\n" + timeStr
-		shadowedText := addShadow(combined)
+		cleanText := pterm.RemoveColorFromString(combined)
+		shadowedText := addShadow(cleanText)
 
 		_, height, err := term.GetSize(int(os.Stdout.Fd()))
 		if err != nil {
