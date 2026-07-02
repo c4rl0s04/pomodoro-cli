@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/schollz/progressbar/v3"
+	"github.com/pterm/pterm"
 )
 
 // Timer type for Pomodoro
@@ -22,29 +22,40 @@ type Session struct {
 	Duration time.Duration
 }
 
-// Run executes the pomodoro session
+// Run executes the pomodoro session with a full screen BigText clock
 func (s *Session) Run() {
-	fmt.Printf("\nStarting %s for %v\n", s.Type, s.Duration)
+	// Enable alternate screen buffer (hides normal terminal output)
+	pterm.EnableOutput()
+	pterm.DefaultBasicText.Print("") // Initialize pterm
+
+	// Create an area for updating the screen
+	area, _ := pterm.DefaultArea.WithFullscreen().Start()
+	defer area.Stop()
 
 	totalSeconds := int(s.Duration.Seconds())
 
-	bar := progressbar.NewOptions(totalSeconds,
-		progressbar.OptionEnableColorCodes(true),
-		progressbar.OptionShowBytes(false),
-		progressbar.OptionSetWidth(50),
-		progressbar.OptionSetDescription(fmt.Sprintf("[cyan]%s[reset]", s.Type)),
-		progressbar.OptionSetTheme(progressbar.Theme{
-			Saucer:        "[green]=[reset]",
-			SaucerHead:    "[green]>[reset]",
-			SaucerPadding: " ",
-			BarStart:      "[",
-			BarEnd:        "]",
-		}),
-	)
+	for i := totalSeconds; i >= 0; i-- {
+		// Calculate minutes and seconds
+		minutes := i / 60
+		seconds := i % 60
 
-	for i := 0; i < totalSeconds; i++ {
-		time.Sleep(1 * time.Second)
-		bar.Add(1)
+		// Format the time string e.g., "25:00"
+		timeString := fmt.Sprintf("%02d:%02d", minutes, seconds)
+
+		// Create big text for the time
+		bigTextStr, _ := pterm.DefaultBigText.WithLetters(
+			pterm.NewLettersFromString(timeString),
+		).Srender()
+
+		// Center the text in the terminal horizontally and vertically
+		centeredText := pterm.DefaultCenter.Sprint(fmt.Sprintf("%s\n\n%s", s.Type, bigTextStr))
+
+		// Update the area
+		area.Update(centeredText)
+
+		// Sleep for 1 second if not done
+		if i > 0 {
+			time.Sleep(1 * time.Second)
+		}
 	}
-	fmt.Printf("\n%s completed!\n", s.Type)
 }
