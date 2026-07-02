@@ -1,70 +1,78 @@
+<div align="center">
+
 # Pomodoro CLI
 
-![Pomodoro CLI Screenshot](screenshot.png)
+<img src="screenshot.png" alt="Pomodoro CLI Screenshot" width="800">
 
-Pomodoro CLI is a command-line interface application built in Go that implements the Pomodoro technique. It features a full-screen, 3D-styled digital clock to help you maintain focus during work sessions and breaks, entirely from your terminal.
+**A sleek, distraction-free Pomodoro timer built for the terminal.**
 
-## Features
+[![Go Version](https://img.shields.io/github/go-mod/go-version/c4rl0s04/pomodoro-cli)](https://golang.org/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Built with Cobra](https://img.shields.io/badge/built%20with-Cobra-red.svg)](https://github.com/spf13/cobra)
 
-*   **Standard Pomodoro Cycle:** Automatically alternates between Work, Short Break, and Long Break sessions.
-*   **Full-Screen Distraction-Free UI:** Utilizes the terminal's Alternate Screen Buffer to hide your command history and prompt, providing a clean interface.
-*   **Custom 3D Rendering:** Renders large, retro-style digital clock text with a dynamic drop shadow effect.
-*   **Customizable Intervals:** Easily configure the duration of work sessions, breaks, and the total number of cycles.
-*   **Configuration File Support:** Integrates with Viper, allowing you to define your preferences in a persistent configuration file.
-*   **Decoupled Architecture:** Built with a strict separation of concerns, separating the core timer engine from the terminal UI rendering logic.
+</div>
 
-## Installation
+---
+
+### The Terminal is Your Focus Zone.
+
+Pomodoro CLI is a lightning-fast, highly aesthetic command-line application that implements the Pomodoro technique directly in your terminal. It leverages a custom 3D shadow rendering engine and an alternate screen buffer to hide all distractions, leaving you with nothing but a beautiful, massive digital clock.
+
+## Key Features
+
+* **3D Retro Styling:** A custom-built rendering engine creates a stunning drop-shadow effect for a premium, retro-digital aesthetic.
+* **Zero Distractions:** Takes over the terminal buffer, hiding command history and prompts until your session ends.
+* **Intelligent Cycles:** Automatically transitions between Work, Short Break, and Long Break phases.
+* **Persistent Configuration:** Built-in Viper integration allows you to save your perfect timer settings to a YAML file.
+* **Strict Architecture:** Cleanly decoupled Go architecture separating core timer logic from presentation.
+
+---
+
+## Getting Started
 
 ### Prerequisites
 
-Ensure you have Go installed on your system (version 1.18 or higher is recommended).
+* Go 1.18 or higher
 
-### Building from Source
+### Installation
 
-1.  Clone the repository to your local machine:
-    ```bash
-    git clone https://github.com/c4rl0s04/pomodoro-cli.git
-    cd pomodoro-cli
-    ```
+Clone the repository and build the binary using the provided Makefile:
 
-2.  Build the executable using the provided Makefile:
-    ```bash
-    make build
-    ```
-    This will generate an executable file named `pomodoro-cli` in the root of the project directory.
+```bash
+git clone https://github.com/c4rl0s04/pomodoro-cli.git
+cd pomodoro-cli
+make build
+```
 
-## Usage
+This generates a highly optimized `pomodoro-cli` binary in your project root.
 
-You can start the timer using the default settings or customize it via command-line flags.
+---
 
-### Basic Usage
+## Usage Guide
 
-To start a standard Pomodoro session (25 minutes work, 5 minutes short break, 15 minutes long break, for 4 cycles):
+Dive straight into a focus session using the default 25-minute timer:
 
 ```bash
 ./pomodoro-cli start
 ```
 
-### Customizing Durations
+### Advanced Configuration
 
-Use flags to override the default durations. All durations are specified in minutes.
-
-*   `--work` or `-w`: Set the duration of the work session.
-*   `--short-break` or `-s`: Set the duration of the short break.
-*   `--long-break` or `-l`: Set the duration of the long break.
-*   `--cycles` or `-c`: Set the number of Pomodoro cycles before the session ends.
-
-**Example:** Start a quick session with 15-minute work intervals and 3-minute breaks:
+Tailor the intervals to match your exact workflow using command-line flags (all values in minutes):
 
 ```bash
-./pomodoro-cli start --work 15 --short-break 3
+./pomodoro-cli start --work 50 --short-break 10 --long-break 30 --cycles 4
 ```
 
-### Configuration File
+* `--work` (`-w`): Duration of the focus block.
+* `--short-break` (`-s`): Duration of the short rest period.
+* `--long-break` (`-l`): Duration of the extended rest period.
+* `--cycles` (`-c`): Number of focus blocks before a long break.
 
-Instead of passing flags every time, you can create a configuration file named `.pomodoro.yaml` in your home directory (`~/.pomodoro.yaml`). The CLI will automatically detect and load these values.
+### Persistent Settings
 
-**Example `~/.pomodoro.yaml`:**
+Tired of typing flags? Create a `.pomodoro.yaml` file in your home directory (`~/.pomodoro.yaml`):
+
 ```yaml
 work: 50
 short-break: 10
@@ -72,22 +80,26 @@ long-break: 30
 cycles: 4
 ```
 
-## Development
+The CLI will automatically detect this file and apply your custom settings on every run.
 
-The project is structured into three main packages to ensure maintainability and testability:
+---
 
-*   `cmd/`: Contains the Cobra CLI commands and wiring.
-*   `core/pomodoro/`: Contains the pure business logic and timer engine.
-*   `ui/`: Contains the pterm rendering logic and terminal manipulation.
+## Under the Hood
 
-### Available Makefile Commands
+The architecture is strictly modularized for scalability and testability:
 
-*   `make build`: Compiles the Go binary.
-*   `make run`: Compiles and immediately executes the CLI.
-*   `make test`: Runs the unit tests for the core packages.
-*   `make lint`: Runs `golangci-lint` to check for stylistic and structural errors.
-*   `make clean`: Removes the compiled binary and cleans the Go cache.
+* `core/pomodoro/`: The pure business logic. A deterministic countdown engine that emits tick events.
+* `ui/`: The presentation layer. Subscribes to tick events and handles complex pterm matrix manipulation.
+* `cmd/`: The Cobra entry point bridging flags, configuration, and execution.
 
-## License
+### Developer Commands
 
-This project is open-source and available under the standard MIT License.
+* `make run`: Compile and execute immediately.
+* `make test`: Run isolated unit tests for the core engine.
+* `make lint`: Run `golangci-lint` to enforce strict formatting standards.
+
+---
+
+<div align="center">
+    <i>Built with focus.</i>
+</div>
