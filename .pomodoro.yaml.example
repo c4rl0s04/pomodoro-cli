@@ -1,0 +1,20 @@
+# Pomodoro CLI Configuration Template
+# 
+# To use this configuration:
+# 1. Copy this file to your home directory: 
+#    cp .pomodoro.yaml.example ~/.pomodoro.yaml
+# 2. Modify the values below to match your preferences.
+#
+# All durations are specified in minutes.
+
+# The duration of a standard work session
+work: 25
+
+# The duration of a short break between work sessions
+short-break: 5
+
+# The duration of a long break, which occurs every 4 cycles
+long-break: 15
+
+# The number of pomodoro cycles before the session completes
+cycles: 4
