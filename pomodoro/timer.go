@@ -24,9 +24,16 @@ type Session struct {
 
 // Run executes the pomodoro session with a full screen BigText clock
 func (s *Session) Run() {
-	// Enable alternate screen buffer (hides normal terminal output)
+	// Enter Alternate Screen Buffer and hide cursor
+	fmt.Print("\033[?1049h\033[?25l")
+	// Ensure we leave Alternate Screen Buffer and show cursor when done
+	defer fmt.Print("\033[?1049l\033[?25h")
+
+	// Clear the screen explicitly
+	fmt.Print("\033[2J\033[H")
+
+	// Enable pterm output
 	pterm.EnableOutput()
-	pterm.DefaultBasicText.Print("") // Initialize pterm
 
 	// Create an area for updating the screen
 	area, _ := pterm.DefaultArea.WithFullscreen().Start()
