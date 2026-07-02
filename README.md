@@ -1,5 +1,7 @@
 # Pomodoro CLI
 
+![Pomodoro CLI Screenshot](screenshot.png)
+
 Pomodoro CLI is a command-line interface application built in Go that implements the Pomodoro technique. It features a full-screen, 3D-styled digital clock to help you maintain focus during work sessions and breaks, entirely from your terminal.
 
 ## Features
