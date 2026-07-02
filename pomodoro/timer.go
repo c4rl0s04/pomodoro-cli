@@ -35,8 +35,9 @@ func addShadow(text string) string {
 	height := len(lines)
 	width := 0
 	for _, l := range lines {
-		if len(l) > width {
-			width = len(l)
+		runeCount := len([]rune(l))
+		if runeCount > width {
+			width = runeCount
 		}
 	}
 
@@ -49,7 +50,8 @@ func addShadow(text string) string {
 	}
 
 	for y, line := range lines {
-		for x, char := range line {
+		runes := []rune(line)
+		for x, char := range runes {
 			if char != ' ' {
 				grid[y+1][x+2] = '░'
 			}
@@ -57,7 +59,8 @@ func addShadow(text string) string {
 	}
 
 	for y, line := range lines {
-		for x, char := range line {
+		runes := []rune(line)
+		for x, char := range runes {
 			if char != ' ' {
 				grid[y][x] = char
 			}
