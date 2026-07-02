@@ -58,8 +58,8 @@ func init() {
 	startCmd.Flags().IntP("cycles", "c", 4, "Number of pomodoro cycles")
 
 	// Bind flags to viper
-	viper.BindPFlag("work", startCmd.Flags().Lookup("work"))
-	viper.BindPFlag("short-break", startCmd.Flags().Lookup("short-break"))
-	viper.BindPFlag("long-break", startCmd.Flags().Lookup("long-break"))
-	viper.BindPFlag("cycles", startCmd.Flags().Lookup("cycles"))
+	_ = viper.BindPFlag("work", startCmd.Flags().Lookup("work"))
+	_ = viper.BindPFlag("short-break", startCmd.Flags().Lookup("short-break"))
+	_ = viper.BindPFlag("long-break", startCmd.Flags().Lookup("long-break"))
+	_ = viper.BindPFlag("cycles", startCmd.Flags().Lookup("cycles"))
 }

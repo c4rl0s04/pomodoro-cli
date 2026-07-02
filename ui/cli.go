@@ -7,6 +7,7 @@ import (
 
 	"github.com/carlosandreshuete/pomodoro-cli/core/pomodoro"
 	"github.com/pterm/pterm"
+	"github.com/pterm/pterm/putils"
 	"golang.org/x/term"
 )
 
@@ -39,7 +40,7 @@ func (c *CLI) Start() error {
 // Stop restores the terminal
 func (c *CLI) Stop() {
 	if c.area != nil {
-		c.area.Stop()
+		_ = c.area.Stop()
 	}
 	// Leave Alternate Screen Buffer and show cursor
 	fmt.Print("\033[?1049l\033[?25h")
@@ -53,12 +54,12 @@ func (c *CLI) RenderTick(tick pomodoro.Tick) {
 
 	// Create big text for the phase
 	phaseStr, _ := pterm.DefaultBigText.WithLetters(
-		pterm.NewLettersFromString(strings.ToUpper(string(tick.Type))),
+		putils.LettersFromString(strings.ToUpper(string(tick.Type))),
 	).Srender()
 
 	// Create big text for the time
 	timeStr, _ := pterm.DefaultBigText.WithLetters(
-		pterm.NewLettersFromString(timeString),
+		putils.LettersFromString(timeString),
 	).Srender()
 
 	combined := phaseStr + "\n" + timeStr
