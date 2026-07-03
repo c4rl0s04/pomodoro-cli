@@ -15,8 +15,8 @@ func TestEngine_Run(t *testing.T) {
 
 	engine := NewEngine(cfg)
 	tickChan := make(chan Tick, 10)
-
-	engine.Run(tickChan)
+	controlChan := make(chan ControlMsg)
+	go engine.Run(tickChan, controlChan)
 
 	// Since work duration is 0, we expect 1 tick (at 0 seconds) for Work
 	// And since it's cycle 1 (out of 1), it's the last cycle, so it stops after short break?

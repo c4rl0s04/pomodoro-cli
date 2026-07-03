@@ -85,6 +85,13 @@ Tailor the intervals to match your exact workflow using command-line flags (all 
 * `--long-break` (`-l`): Duration of the extended rest period.
 * `--cycles` (`-c`): Number of focus blocks before a long break.
 
+### Interactive Controls
+
+While the timer is running, you can use the following keyboard shortcuts:
+* `Spacebar`: Pause / Resume the timer
+* `s`: Skip to the next phase (e.g. end a break early)
+* `q` (or `Ctrl+C`): Gracefully quit the application
+
 ### Persistent Settings
 
 Tired of typing flags? Create a `.pomodoro.yaml` file in your home directory (`~/.pomodoro.yaml`):

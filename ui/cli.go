@@ -46,6 +46,35 @@ func (c *CLI) Stop() {
 	fmt.Print("\033[?1049l\033[?25h")
 }
 
+// ListenKeyboard captures raw keystrokes and sends control messages
+func (c *CLI) ListenKeyboard(controlChan chan<- pomodoro.ControlMsg) {
+	oldState, err := term.MakeRaw(int(os.Stdin.Fd()))
+	if err != nil {
+		return
+	}
+	defer func() {
+		_ = term.Restore(int(os.Stdin.Fd()), oldState)
+	}()
+
+	b := make([]byte, 1)
+	for {
+		_, err := os.Stdin.Read(b)
+		if err != nil {
+			return
+		}
+
+		switch b[0] {
+		case ' ':
+			controlChan <- pomodoro.PauseResume
+		case 's', 'S':
+			controlChan <- pomodoro.Skip
+		case 'q', 'Q', 3: // 3 is Ctrl+C
+			controlChan <- pomodoro.Quit
+			return
+		}
+	}
+}
+
 // RenderTick renders a single tick event to the screen
 func (c *CLI) RenderTick(tick pomodoro.Tick) {
 	minutes := int(tick.TimeRemaining.Minutes())

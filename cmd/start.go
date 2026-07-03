@@ -14,7 +14,12 @@ import (
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start a Pomodoro session",
-	Long:  `Start a sequence of work and break timers according to the Pomodoro technique.`,
+	Long: `Start a sequence of work and break timers according to the Pomodoro technique.
+
+Interactive Controls:
+  [Space] Pause / Resume
+  [s]     Skip to next phase
+  [q]     Quit`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Read config from viper (which includes flags, env vars, and config file)
 		cfg := pomodoro.Config{
@@ -38,8 +43,14 @@ var startCmd = &cobra.Command{
 		// Channel for ticks
 		tickChan := make(chan pomodoro.Tick)
 
+		// Channel for controls
+		controlChan := make(chan pomodoro.ControlMsg)
+
+		// Start listening to keyboard
+		go termUI.ListenKeyboard(controlChan)
+
 		// Start engine in a goroutine
-		go engine.Run(tickChan)
+		go engine.Run(tickChan, controlChan)
 
 		// Listen to ticks and update UI
 		for tick := range tickChan {
