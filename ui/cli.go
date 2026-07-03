@@ -82,18 +82,21 @@ func (c *CLI) RenderTick(tick pomodoro.Tick) {
 	timeString := fmt.Sprintf("%02d:%02d", minutes, seconds)
 
 	// Create big text for the phase
-	phaseStr, _ := pterm.DefaultBigText.WithLetters(
+	phaseRaw, _ := pterm.DefaultBigText.WithLetters(
 		putils.LettersFromString(strings.ToUpper(string(tick.Type))),
 	).Srender()
+	phaseStr := pterm.RemoveColorFromString(phaseRaw)
 
 	// Create big text for the time
-	timeStr, _ := pterm.DefaultBigText.WithLetters(
+	timeRaw, _ := pterm.DefaultBigText.WithLetters(
 		putils.LettersFromString(timeString),
 	).Srender()
+	timeStr := pterm.RemoveColorFromString(timeRaw)
+
+	phaseStr, timeStr = c.centerBlocks(phaseStr, timeStr)
 
 	combined := phaseStr + "\n" + timeStr
-	cleanText := pterm.RemoveColorFromString(combined)
-	shadowedText := c.addShadow(cleanText, tick.IsPaused)
+	shadowedText := c.addShadow(combined, tick.IsPaused)
 
 	_, height, err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
@@ -179,4 +182,39 @@ func (c *CLI) addShadow(text string, isPaused bool) string {
 		sb.WriteString("\n")
 	}
 	return sb.String()
+}
+
+func (c *CLI) centerBlocks(block1, block2 string) (string, string) {
+	w1 := c.getBlockWidth(block1)
+	w2 := c.getBlockWidth(block2)
+
+	if w1 < w2 {
+		pad := strings.Repeat(" ", (w2-w1)/2)
+		block1 = c.padBlockLeft(block1, pad)
+	} else if w2 < w1 {
+		pad := strings.Repeat(" ", (w1-w2)/2)
+		block2 = c.padBlockLeft(block2, pad)
+	}
+	return block1, block2
+}
+
+func (c *CLI) getBlockWidth(block string) int {
+	max := 0
+	for _, line := range strings.Split(block, "\n") {
+		count := len([]rune(line))
+		if count > max {
+			max = count
+		}
+	}
+	return max
+}
+
+func (c *CLI) padBlockLeft(block, padding string) string {
+	lines := strings.Split(block, "\n")
+	for i, line := range lines {
+		if len(line) > 0 { // Only pad lines that actually have content
+			lines[i] = padding + line
+		}
+	}
+	return strings.Join(lines, "\n")
 }
