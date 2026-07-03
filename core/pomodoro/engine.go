@@ -9,8 +9,8 @@ type SessionType string
 
 const (
 	Work       SessionType = "Work"
-	ShortBreak SessionType = "Short Break"
-	LongBreak  SessionType = "Long Break"
+	ShortBreak SessionType = "Break"
+	LongBreak  SessionType = "Break"
 )
 
 // Config holds the configuration for a Pomodoro session
