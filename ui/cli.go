@@ -66,7 +66,7 @@ func (c *CLI) ListenKeyboard(controlChan chan<- pomodoro.ControlMsg) {
 		switch b[0] {
 		case ' ':
 			controlChan <- pomodoro.PauseResume
-		case 's', 'S':
+		case 's', 'S', 'n', 'N':
 			controlChan <- pomodoro.Skip
 		case 'q', 'Q', 3: // 3 is Ctrl+C
 			controlChan <- pomodoro.Quit

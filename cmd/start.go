@@ -18,7 +18,7 @@ var startCmd = &cobra.Command{
 
 Interactive Controls:
   [Space] Pause / Resume
-  [s]     Skip to next phase
+  [n]     Skip to next phase
   [q]     Quit`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Read config from viper (which includes flags, env vars, and config file)

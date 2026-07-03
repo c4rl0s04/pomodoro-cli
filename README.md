@@ -89,7 +89,7 @@ Tailor the intervals to match your exact workflow using command-line flags (all 
 
 While the timer is running, you can use the following keyboard shortcuts:
 * `Spacebar`: Pause / Resume the timer
-* `s`: Skip to the next phase (e.g. end a break early)
+* `n`: Skip to the next phase (e.g. end a break early)
 * `q` (or `Ctrl+C`): Gracefully quit the application
 
 ### Persistent Settings
