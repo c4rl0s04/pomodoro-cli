@@ -111,6 +111,12 @@ func (c *CLI) RenderTick(tick pomodoro.Tick) {
 	centeredText := pterm.DefaultCenter.Sprint(shadowedText)
 	finalOutput := verticalPadding + centeredText
 
+	// Because we put the terminal in Raw mode to capture keystrokes,
+	// the terminal no longer automatically translates \n to \r\n.
+	// We must manually add carriage returns to prevent diagonal text scattering.
+	finalOutput = strings.ReplaceAll(finalOutput, "\r\n", "\n")
+	finalOutput = strings.ReplaceAll(finalOutput, "\n", "\r\n")
+
 	c.area.Update(finalOutput)
 }
 
