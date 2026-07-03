@@ -2,6 +2,8 @@ package pomodoro
 
 import (
 	"time"
+
+	"github.com/carlosandreshuete/pomodoro-cli/core/notifier"
 )
 
 // SessionType represents the type of a pomodoro session
@@ -39,12 +41,18 @@ const (
 
 // Engine manages the pomodoro timer state
 type Engine struct {
-	config Config
+	config   Config
+	notifier notifier.Notifier
 }
 
 // NewEngine creates a new Engine
 func NewEngine(cfg Config) *Engine {
 	return &Engine{config: cfg}
+}
+
+// SetNotifier attaches a desktop notifier to the engine
+func (e *Engine) SetNotifier(n notifier.Notifier) {
+	e.notifier = n
 }
 
 // Run starts the engine and emits ticks via the provided channel
@@ -83,6 +91,7 @@ func (e *Engine) runSession(sessionType SessionType, duration time.Duration, tic
 	}
 
 	if remaining <= 0 {
+		e.notifySessionEnd(sessionType)
 		return true
 	}
 
@@ -114,9 +123,24 @@ func (e *Engine) runSession(sessionType SessionType, duration time.Duration, tic
 					IsPaused:      paused,
 				}
 				if remaining <= 0 {
+					e.notifySessionEnd(sessionType)
 					return true
 				}
 			}
 		}
+	}
+}
+
+func (e *Engine) notifySessionEnd(sessionType SessionType) {
+	if e.notifier != nil {
+		var title, msg string
+		if sessionType == Work {
+			title = "Work Session Complete!"
+			msg = "Time to take a break."
+		} else {
+			title = "Break Complete!"
+			msg = "Time to get back to work."
+		}
+		_ = e.notifier.Notify(title, msg)
 	}
 }

@@ -21,6 +21,7 @@ Pomodoro CLI is a lightning-fast, highly aesthetic command-line application that
 ## Key Features
 
 * **3D Retro Styling:** A custom-built rendering engine creates a stunning drop-shadow effect for a premium, retro-digital aesthetic.
+* **Desktop Notifications:** Native cross-platform system alerts and sounds when a timer completes.
 * **Zero Distractions:** Takes over the terminal buffer, hiding command history and prompts until your session ends.
 * **Intelligent Cycles:** Automatically transitions between Work, Short Break, and Long Break phases.
 * **Persistent Configuration:** Built-in Viper integration allows you to save your perfect timer settings to a YAML file.

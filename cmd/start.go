@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/carlosandreshuete/pomodoro-cli/core/notifier"
 	"github.com/carlosandreshuete/pomodoro-cli/core/pomodoro"
 	"github.com/carlosandreshuete/pomodoro-cli/ui"
 	"github.com/spf13/cobra"
@@ -31,6 +32,9 @@ Interactive Controls:
 
 		// Initialize Engine
 		engine := pomodoro.NewEngine(cfg)
+
+		// Attach desktop notifier
+		engine.SetNotifier(notifier.NewBeeepNotifier())
 
 		// Initialize UI
 		termUI := ui.NewCLI()
