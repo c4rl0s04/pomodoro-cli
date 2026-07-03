@@ -73,6 +73,14 @@ Dive straight into a focus session using the default 25-minute timer:
 ./pomodoro-cli start
 ```
 
+### Viewing Statistics
+
+Curious how productive you've been this week? Use the stats command to see a beautiful 3D bar chart of your completed focus sessions!
+
+```bash
+./pomodoro-cli stats
+```
+
 ### Advanced Configuration
 
 Tailor the intervals to match your exact workflow using command-line flags (all values in minutes):

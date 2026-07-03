@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/carlosandreshuete/pomodoro-cli/core/notifier"
+	"github.com/carlosandreshuete/pomodoro-cli/core/store"
 )
 
 // SessionType represents the type of a pomodoro session
@@ -43,6 +44,7 @@ const (
 type Engine struct {
 	config   Config
 	notifier notifier.Notifier
+	store    store.Store
 }
 
 // NewEngine creates a new Engine
@@ -53,6 +55,11 @@ func NewEngine(cfg Config) *Engine {
 // SetNotifier attaches a desktop notifier to the engine
 func (e *Engine) SetNotifier(n notifier.Notifier) {
 	e.notifier = n
+}
+
+// SetStore attaches a persistent storage backend to the engine
+func (e *Engine) SetStore(s store.Store) {
+	e.store = s
 }
 
 // Run starts the engine and emits ticks via the provided channel
@@ -132,6 +139,14 @@ func (e *Engine) runSession(sessionType SessionType, duration time.Duration, tic
 }
 
 func (e *Engine) notifySessionEnd(sessionType SessionType) {
+	// Log the work session explicitly
+	if sessionType == Work && e.store != nil {
+		_ = e.store.SaveSession(store.SessionRecord{
+			Duration:    int(e.config.WorkDuration.Minutes()),
+			CompletedAt: time.Now(),
+		})
+	}
+
 	if e.notifier != nil {
 		var title, msg string
 		if sessionType == Work {

@@ -7,6 +7,7 @@ import (
 
 	"github.com/carlosandreshuete/pomodoro-cli/core/notifier"
 	"github.com/carlosandreshuete/pomodoro-cli/core/pomodoro"
+	"github.com/carlosandreshuete/pomodoro-cli/core/store"
 	"github.com/carlosandreshuete/pomodoro-cli/ui"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -35,6 +36,14 @@ Interactive Controls:
 
 		// Attach desktop notifier
 		engine.SetNotifier(notifier.NewBeeepNotifier())
+
+		// Attach persistent store
+		jsonStore, err := store.NewJSONStore()
+		if err == nil {
+			engine.SetStore(jsonStore)
+		} else {
+			fmt.Fprintln(os.Stderr, "Warning: failed to initialize session store:", err)
+		}
 
 		// Initialize UI
 		termUI := ui.NewCLI()
