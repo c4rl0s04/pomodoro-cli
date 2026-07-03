@@ -34,17 +34,33 @@ Pomodoro CLI is a lightning-fast, highly aesthetic command-line application that
 
 * Go 1.18 or higher
 
-### Installation
+### Building from Source
 
-Clone the repository and build the binary using the provided Makefile:
+1.  Clone the repository to your local machine:
+    ```bash
+    git clone https://github.com/c4rl0s04/pomodoro-cli.git
+    cd pomodoro-cli
+    ```
 
-```bash
-git clone https://github.com/c4rl0s04/pomodoro-cli.git
-cd pomodoro-cli
-make build
-```
+2.  Build the executable using the provided Makefile:
+    ```bash
+    make build
+    ```
+    This will generate an executable file named `pomodoro-cli` in the root of the project directory.
 
-This generates a highly optimized `pomodoro-cli` binary in your project root.
+### Using Docker
+
+If you don't want to install Go on your system, you can run the CLI entirely through Docker!
+
+1. Build the Docker image:
+   ```bash
+   docker build -t pomodoro-cli .
+   ```
+
+2. Run the Docker container (Note: the `-it` flag is required for the terminal UI to render correctly):
+   ```bash
+   docker run -it pomodoro-cli start
+   ```
 
 ---
 
