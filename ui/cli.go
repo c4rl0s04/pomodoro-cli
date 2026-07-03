@@ -93,7 +93,7 @@ func (c *CLI) RenderTick(tick pomodoro.Tick) {
 
 	combined := phaseStr + "\n" + timeStr
 	cleanText := pterm.RemoveColorFromString(combined)
-	shadowedText := c.addShadow(cleanText)
+	shadowedText := c.addShadow(cleanText, tick.IsPaused)
 
 	_, height, err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
@@ -120,7 +120,7 @@ func (c *CLI) RenderTick(tick pomodoro.Tick) {
 	c.area.Update(finalOutput)
 }
 
-func (c *CLI) addShadow(text string) string {
+func (c *CLI) addShadow(text string, isPaused bool) string {
 	lines := strings.Split(text, "\n")
 	if len(lines) == 0 {
 		return text
@@ -167,7 +167,11 @@ func (c *CLI) addShadow(text string) string {
 			if char == '░' {
 				sb.WriteString(pterm.FgDarkGray.Sprintf("%c", char))
 			} else if char != ' ' {
-				sb.WriteString(pterm.FgCyan.Sprintf("%c", char))
+				if isPaused {
+					sb.WriteString(pterm.FgYellow.Sprintf("%c", char))
+				} else {
+					sb.WriteString(pterm.FgCyan.Sprintf("%c", char))
+				}
 			} else {
 				sb.WriteRune(char)
 			}

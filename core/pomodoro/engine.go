@@ -25,6 +25,7 @@ type Config struct {
 type Tick struct {
 	Type          SessionType
 	TimeRemaining time.Duration
+	IsPaused      bool
 }
 
 // ControlMsg represents an interactive command from the user
@@ -78,6 +79,7 @@ func (e *Engine) runSession(sessionType SessionType, duration time.Duration, tic
 	tickChan <- Tick{
 		Type:          sessionType,
 		TimeRemaining: time.Duration(remaining) * time.Second,
+		IsPaused:      paused,
 	}
 
 	if remaining <= 0 {
@@ -93,6 +95,11 @@ func (e *Engine) runSession(sessionType SessionType, duration time.Duration, tic
 			switch msg {
 			case PauseResume:
 				paused = !paused
+				tickChan <- Tick{
+					Type:          sessionType,
+					TimeRemaining: time.Duration(remaining) * time.Second,
+					IsPaused:      paused,
+				}
 			case Skip:
 				return true
 			case Quit:
@@ -104,6 +111,7 @@ func (e *Engine) runSession(sessionType SessionType, duration time.Duration, tic
 				tickChan <- Tick{
 					Type:          sessionType,
 					TimeRemaining: time.Duration(remaining) * time.Second,
+					IsPaused:      paused,
 				}
 				if remaining <= 0 {
 					return true
