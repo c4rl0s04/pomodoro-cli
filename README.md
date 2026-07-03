@@ -9,6 +9,7 @@
 [![Go Version](https://img.shields.io/github/go-mod/go-version/c4rl0s04/pomodoro-cli)](https://golang.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Built with Cobra](https://img.shields.io/badge/built%20with-Cobra-red.svg)](https://github.com/spf13/cobra)
+[![CI](https://github.com/c4rl0s04/pomodoro-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/c4rl0s04/pomodoro-cli/actions/workflows/ci.yml)
 
 </div>
 
@@ -34,6 +35,14 @@ Pomodoro CLI is a lightning-fast, highly aesthetic command-line application that
 ### Prerequisites
 
 * Go 1.18 or higher
+
+### Downloading Pre-compiled Binaries (Easiest)
+
+If you don't have Go installed, you can simply download the latest pre-compiled binary for your operating system (Mac, Linux, or Windows) from the **[Releases](https://github.com/c4rl0s04/pomodoro-cli/releases)** tab on GitHub.
+
+1. Download the archive for your OS.
+2. Extract the `pomodoro-cli` executable.
+3. Move it to your system's PATH (e.g., `/usr/local/bin/pomodoro-cli`).
 
 ### Building from Source
 
