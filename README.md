@@ -2,7 +2,7 @@
 
 # Pomodoro CLI
 
-<img src="screenshot.png" alt="Pomodoro CLI Screenshot" width="800">
+<img src="screenshot.gif" alt="Pomodoro CLI Screenshot" width="800">
 
 **A sleek, distraction-free Pomodoro timer built for the terminal.**
 
