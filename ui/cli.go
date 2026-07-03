@@ -171,9 +171,9 @@ func (c *CLI) addShadow(text string, isPaused bool) string {
 				sb.WriteString(pterm.FgDarkGray.Sprintf("%c", char))
 			} else if char != ' ' {
 				if isPaused {
-					sb.WriteString(pterm.FgYellow.Sprintf("%c", char))
+					sb.WriteString(pterm.FgRed.Sprintf("%c", char))
 				} else {
-					sb.WriteString(pterm.FgCyan.Sprintf("%c", char))
+					sb.WriteString(pterm.FgYellow.Sprintf("%c", char))
 				}
 			} else {
 				sb.WriteRune(char)
