@@ -11,7 +11,7 @@ import (
 type SessionType string
 
 const (
-	Work       SessionType = "Work"
+	Work       SessionType = "Focus"
 	ShortBreak SessionType = "Break"
 	LongBreak  SessionType = "Break"
 )
